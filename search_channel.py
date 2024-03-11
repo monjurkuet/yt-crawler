@@ -4,6 +4,7 @@ import sqlite3
 import json
 import time
 import random
+from tqdm import tqdm
 
 conn = sqlite3.connect('database.db', check_same_thread=False)
 cursor = conn.cursor()
@@ -109,9 +110,10 @@ def save_channels(channel_list):
         cursor.execute(sqlite_insert_with_param, data_tuple)
         conn.commit()
 
-keywords=["technogamerz","technologynews","techgadgets","android","techvideos","smartgadgets","gadgetsnews","teaching","learning","facts","support","goals","like","nonprofit","career","educationmatters","technology","newtechnology","techblogger","techtrends","educational","education","learn","knowledge","qualityeducation","currentaffairs","didyouknow","gk","educateyourself","youtube","youtuber","subscribe","youtubelikes","youtubevide","youtubemarketing","youtubeviews","instavideo","instayoutube","youtubeindia","youtubeuse","youtubelife","youtubesubscribers","youtubelive","youtubecreator","youtuberewind","youtuberp","youtubepremium","subscribers","subscriberyoutube","subscribersyoutube","100subscribers","200subscribers","500subscribers","1ksubscribers","10ksubscribers","100ksubscribers","1millionsubscribers","3millionsubscribers","10millionsubscribers","subscribersonly","freesubscribers","getsubscribers","subscribersrock","moresubscribers","influencer","digitalinfluencer","influencers","fashioninfluencer","styleinfluencer","beautyinfluencer","influencermarketing","influencerstyle","hinfluencercollective","minidigitalinfluencer","influencerdigital","doginfluencer","microinfluencer","travelinfluencer","influencerswanted","video","vlog","life","youtubechannel","twitch","viral","newvide","motivation","motivationalvideos","motivational","motivationalspeaker","motivationalvideo","inspiration","success","inspirational","nevergiveup","lifestory","lifehack","lifetips","lifegyan","lifegoeson","lifestyle","lifestylevlog","youtubevideos","youtubemusic","art","artist","myart","abstractart","artsy","practice","visualart","artoftheday","onlineart","artvideo","videoart","digitalart","artlife","modernart","arttutorial","creative","gallery","fineart","artstudio","spotify","music","newmusic","hiphop","rap","musicvideo","beats","musician","youtubecommunity","song","rapmusic","musicproducer","youtubeblack","songwriter","musical","dankmemes","funnymemes","memer","youtubememes","favoritememes","memewar","justmemes","newvideo","share","youtubers","love","shorts","funnyshorts","alpha","tiktok","gameplay","explore","sub","youtubeguru","youtubeislife","shortsfunny","shortsbgm","shortscomedy","shortsbts","shortsasmr","shortsadoptme","shortsanity","shortsbeta","shortsart","shortscooking","shortschallenge","youtuberlikes"]
+keywords=["shortsbeta","shortsart","shortscooking","shortschallenge","youtuberlikes"]
 
-for keyword in keywords:
+for keyword in tqdm(keywords):
+    print(keyword)
     json_data=json_data_fetch()
     continuation,channel_list=initial_query(keyword,json_data)
     save_channels(channel_list)
