@@ -56,7 +56,7 @@ def process_chanels(channelId_queue):
     driver=get_driver()
     counter=0
     for channelId in tqdm(channelId_queue):
-        print('Crawling : ',f'https://www.youtube.com/channel/{channelId}')
+        print('\nCrawling : ',f'https://www.youtube.com/channel/{channelId}')
         counter+=1
         if counter%200==0:
             driver.close()
@@ -68,6 +68,8 @@ def process_chanels(channelId_queue):
             about_data={'error':'This channel does not exist.'}
         elif 'This account has been terminated' in driver.page_source:
             about_data={'error':'This account has been terminated'}
+        elif 'This channel is not available.' in driver.page_source:
+            about_data={'error':'This channel is not available.'}
         else:
             driver.find_element('xpath','//yt-icon[@id="more-icon"]').click()
             time.sleep(random.uniform(3,6))
