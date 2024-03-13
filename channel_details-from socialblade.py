@@ -31,6 +31,8 @@ def parse_logs(driver):
                 response_body = driver.execute_cdp_cmd("Network.getResponseBody", {"requestId": request_id})
                 response_json = json.loads(response_body['body'])
                 return response_json
+                #print(response_json)
+                #break
         except Exception as e:
             pass
     return None
@@ -56,33 +58,41 @@ def process_chanels(channelId_queue):
     driver=get_driver()
     counter=0
     for channelId in tqdm(channelId_queue):
-        print('\nCrawling : ',f'https://www.youtube.com/channel/{channelId}')
-        counter+=1
-        if counter%200==0:
-            driver.close()
-            driver.quit()
-            driver=get_driver()
-        driver.get(f'https://www.youtube.com/channel/{channelId}')
-        time.sleep(random.uniform(4,7))
-        if 'This channel does not exist.' in driver.page_source:
-            about_data={'error':'This channel does not exist.'}
-        elif 'This account has been terminated' in driver.page_source:
-            about_data={'error':'This account has been terminated'}
-        elif 'This channel is not available.' in driver.page_source:
-            about_data={'error':'This channel is not available.'}
-        else:
-            driver.find_element('xpath','//yt-icon[@id="more-icon"]').click()
-            time.sleep(random.uniform(3,6))
-            response_json=parse_logs(driver)
-            about_data=response_json['onResponseReceivedEndpoints'][0]['appendContinuationItemsAction']['continuationItems'][0]['aboutChannelRenderer']['metadata']
-        save_data(channelId,about_data)
-        print(about_data)
-        print('Crawled : ',channelId)
+        try:
+            print('\nCrawling : ',f'https://www.youtube.com/channel/{channelId}')
+            counter+=1
+            if counter%2000==0:
+                driver.close()
+                driver.quit()
+                driver=get_driver()
+            driver.get(f'https://www.youtube.com/channel/{channelId}')
+            time.sleep(random.uniform(4,7))
+            if 'This channel does not exist.' in driver.page_source:
+                about_data={'error':'This channel does not exist.'}
+            elif 'This account has been terminated' in driver.page_source:
+                about_data={'error':'This account has been terminated'}
+            elif 'This channel is not available.' in driver.page_source:
+                about_data={'error':'This channel is not available.'}
+            elif 'This account has been suspended' in driver.page_source:
+                about_data={'error':'This account has been suspended'}
+            else:
+                if driver.find_elements('xpath','//yt-icon[@id="more-icon"]'):
+                    driver.find_element('xpath','//yt-icon[@id="more-icon"]').click()
+                    time.sleep(random.uniform(5,6))
+                    response_json=parse_logs(driver)
+                    about_data=response_json['onResponseReceivedEndpoints'][0]['appendContinuationItemsAction']['continuationItems'][0]['aboutChannelRenderer']['metadata']
+                else:
+                    about_data={'error':'Need to recheck'}
+            save_data(channelId,about_data)
+            print(about_data)
+            print('Crawled : ',channelId)
+        except Exception as e:
+            print(e)
     driver.close()
     driver.quit()
 
 
 if __name__ == "__main__":
     channelId_queue=queue_list() # get list of unprocessed data from queue
-    process_chanels(channelId_queue)
+    process_chanels(channelId_queue[2:])
 
