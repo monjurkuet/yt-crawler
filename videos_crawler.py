@@ -28,8 +28,9 @@ def queue_list():
                     and videoCount<101
                     and videoCount>=10
                     and viewCount>50000
-                    and channelId not in (SELECT DISTINCT channelId from youtube_videos)
+                    
         """
+    #and channelId not in (SELECT DISTINCT channelId from youtube_videos)
     cursor.execute(query)
     # Fetch the results
     channelIds = cursor.fetchall()
@@ -80,9 +81,10 @@ def get_driver():
 channelId_queue=queue_list()
 driver=get_driver()
 counter=0
-for channelId in tqdm(channelId_queue):
+sortOldest=1
+for channelId in tqdm(channelId_queue[64:]):
     counter+=1
-    if counter%100==0:
+    if counter%500==0:
         driver.close()
         driver.quit()
         driver=get_driver()
@@ -92,8 +94,14 @@ for channelId in tqdm(channelId_queue):
     a=driver.get_log("performance")
     if "This account has been terminated" not in driver.page_source:
         try:
+            print('Check oldest videos.....')
             driver.find_element('xpath','//yt-formatted-string[text()="Oldest"]').click()
             time.sleep(random.uniform(2,4))
+            if sortOldest!=0:
+                print('Check latest videos.....')
+                a=driver.get_log("performance")
+                driver.find_element('xpath','//yt-formatted-string[text()="Latest"]').click()
+                time.sleep(random.uniform(2,4))
             response_json=parse_logs()
             videos=response_json['onResponseReceivedActions'][1]['reloadContinuationItemsCommand']['continuationItems']
             videos=[i['richItemRenderer']['content']['videoRenderer'] for i in videos if 'richItemRenderer' in i.keys()]
