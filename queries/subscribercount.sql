@@ -8,5 +8,5 @@ SELECT *,
        END AS numeric_SubscribersCount
 	   
 FROM channels
-WHERE SubscribersCount NOT LIKE '%M%' and numeric_SubscribersCount>=2500
+WHERE SubscribersCount NOT LIKE '%M%' and numeric_SubscribersCount>=2500 and numeric_SubscribersCount<100000
 and channelId not in (Select channelId from channel_details);
