@@ -5,3 +5,4 @@ error_logs
 *.json
 *.csv
 *.xlsx
+database.db*
