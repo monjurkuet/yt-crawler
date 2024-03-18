@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import datetime, timedelta
+from tqdm import tqdm
 
 # Connect to the SQLite database
 conn = sqlite3.connect('database.db')
@@ -33,7 +34,7 @@ cursor.execute("SELECT videoId,json_extract(data, '$.publishedTimeText.simpleTex
 rows = cursor.fetchall()
 
 # Convert each row to a timestamp relative to the present time
-for row in rows:
+for row in tqdm(rows):
     videoId=row[0]
     publishedTime = row[1]
     updatedAt=datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S')
