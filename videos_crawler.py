@@ -82,7 +82,7 @@ channelId_queue=queue_list()
 driver=get_driver()
 counter=0
 sortOldest=1
-for channelId in tqdm(channelId_queue[64:]):
+for channelId in tqdm(channelId_queue):
     counter+=1
     if counter%500==0:
         driver.close()
