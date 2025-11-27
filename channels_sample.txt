@@ -1,0 +1,5 @@
+# Sample channels file for use with scrape_channels.py
+# Add one channel id per line. Lines starting with '#' are ignored.
+# Example channel IDs below (public examples):
+UCnwxzpFzZNtLH8NgTeAROFA
+UC_x5XG1OV2P6uZZ5FSM9Ttw

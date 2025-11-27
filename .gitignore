@@ -7,3 +7,10 @@ error_logs
 *.xlsx
 database.db*
 __pycache__/
+
+# Environment variables (sensitive data)
+.env
+
+# IDE
+.vscode/
+.idea/
