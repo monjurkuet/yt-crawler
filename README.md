@@ -21,6 +21,9 @@ A production-ready YouTube video crawler with MySQL database integration and SSH
 - Preserve raw data for reference
 
 ✅ **Best Practices**
+✅ **Transcripts (raw only)**
+- Fetch transcripts using youtube-transcript-api and store the raw snippet list returned by fetched_transcript.to_raw_data() into the `transcripts` table as JSON. The table stores only the raw data, fetch status, and any error message — extra metadata (combined text / language columns) is intentionally omitted to keep the storage minimal.
+
 - Singleton pattern for resource management
 - Context managers for automatic cleanup
 - Comprehensive error handling
@@ -86,6 +89,29 @@ to fetch and optionally save videos for each channel:
 ```bash
 # create a channels file (one ID per line) or use channels_sample.txt
 python scrape_channels.py --channels-file channels_sample.txt --create-table --save-to-db
+```
+
+### Transcripts
+
+This project includes a transcript fetcher which will read video IDs from the `videos` table and store transcripts in a new `transcripts` table.
+
+Usage:
+
+```bash
+# Create the transcripts table in the configured database
+python scrape_transcripts.py --create-table
+
+# Fetch transcripts in batches (default limit 50):
+python scrape_transcripts.py --limit 100
+
+# Fetch transcripts for a single video by id:
+python scrape_transcripts.py --video-id <VIDEO_ID> --language en
+```
+
+The script uses `youtube-transcript-api` so make sure to install dependencies:
+
+```bash
+pip install -r requirements.txt
 ```
 
 Options:

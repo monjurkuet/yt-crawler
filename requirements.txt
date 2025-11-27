@@ -3,3 +3,4 @@ mysql-connector-python
 sshtunnel
 python-dotenv
 pytest
+youtube-transcript-api

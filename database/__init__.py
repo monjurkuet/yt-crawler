@@ -11,6 +11,7 @@ from .db_manager import (
 )
 
 from .video_repository import VideoRepository
+from .transcript_repository import TranscriptRepository
 
 __all__ = [
     'db_manager',
@@ -18,5 +19,6 @@ __all__ = [
     'close_database',
     'get_db_connection',
     'get_db_cursor',
-    'VideoRepository'
+    'VideoRepository',
+    'TranscriptRepository'
 ]
