@@ -6,3 +6,4 @@ error_logs
 *.csv
 *.xlsx
 database.db*
+__pycache__/
