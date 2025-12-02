@@ -28,9 +28,6 @@ class ConfigManager:
         self.DATABASE_NAME = get_config_value('DATABASE_NAME')
         self.DATABASE_PASSWORD = get_config_value('DATABASE_PASSWORD')
 
-        # Google Drive Service Account Key File
-        self.SERVICE_ACCOUNT_KEY_FILE_PATH = get_config_value('SERVICE_ACCOUNT_KEY_FILE')
-
         # File path for video IDs
         self.VIDEO_IDS_FILE_PATH = '/content/drive/MyDrive/cloudaccess/videoids.txt'
 
@@ -45,7 +42,6 @@ class ConfigManager:
             'REMOTE_MYSQL_PORT': self.REMOTE_MYSQL_PORT,
             'DATABASE_NAME': self.DATABASE_NAME,
             'DATABASE_PASSWORD': self.DATABASE_PASSWORD,
-            'SERVICE_ACCOUNT_KEY_FILE_PATH': self.SERVICE_ACCOUNT_KEY_FILE_PATH,
             'VIDEO_IDS_FILE_PATH': self.VIDEO_IDS_FILE_PATH
         }
 
